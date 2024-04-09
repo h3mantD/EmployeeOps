@@ -3,17 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Modules\ProjectManagement\Http\Controllers\ProjectController;
 
-Route::group([
-    'prefix' => 'projects',
-    'as' => 'projects.',
-    'middleware' => ['web', 'auth:web,employee'],
-], function (): void {
-    Route::get('/', [ProjectController::class, 'index'])->name('index');
-    Route::get('/create', [ProjectController::class, 'create'])->name('create');
-    Route::post('/store', [ProjectController::class, 'store'])->name('store');
-    Route::get('/{project}/edit', [ProjectController::class, 'edit'])->name('edit');
-    Route::post('/{project}', [ProjectController::class, 'update'])->name('update');
-    Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('destroy');
+Route::middleware('web')->group(function (): void {
+    Route::prefix('/projects')->as('projects.')->group(base_path('modules/ProjectManagement/routes/projects.php'));
+    Route::prefix('/projects/{project}/tasks')
+        ->as('tasks.')->group(base_path('modules/ProjectManagement/routes/tasks.php'));
 });

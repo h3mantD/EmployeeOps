@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\ProjectManagement\Enums\ProjectType;
@@ -78,6 +79,8 @@ final class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $project->load('tasks');
+
         return Inertia::render('Projects/ProjectsForm', [
             'employees' => Employee::query()->get(['id', 'name']),
             'projectTypes' => ProjectType::getSelectArray(),
@@ -91,7 +94,7 @@ final class ProjectController extends Controller
     public function update(Request $request, Project $project): RedirectResponse
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'unique:projects,name'],
+            'name' => ['required', 'string', Rule::unique('projects', 'name')->ignore($project->id)],
             'type' => ['required'],
             'members' => ['required', 'array'],
         ]);

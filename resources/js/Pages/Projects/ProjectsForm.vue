@@ -2,6 +2,7 @@
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref } from "vue";
+import ProjectTasks from "../Tasks/ProjectTasks.vue";
 
 const formMode = ref("create");
 
@@ -161,5 +162,9 @@ const submit = () => {
                 </div>
             </div>
         </div>
+
+        <template v-if="formMode === 'edit'">
+            <ProjectTasks :project="project"></ProjectTasks>
+        </template>
     </AuthenticatedLayout>
 </template>
