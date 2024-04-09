@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User;
 
-final class Employee extends Model
+final class Employee extends User
 {
     use HasFactory;
 
@@ -18,7 +18,6 @@ final class Employee extends Model
         'email',
         'phone_number',
         'password',
-        'type',
         'last_operation',
     ];
 
@@ -29,5 +28,10 @@ final class Employee extends Model
     public function getAuthPasswordAttribute()
     {
         return $this->password;
+    }
+
+    public function setPasswordAttribute($value): void
+    {
+        $this->attributes['password'] = bcrypt($value);
     }
 }
