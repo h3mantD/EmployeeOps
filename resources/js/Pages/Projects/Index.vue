@@ -89,6 +89,10 @@ const deleteProject = (projectId, projectName) => {
                                             >Edit</Link
                                         >
                                         <button
+                                            v-if="
+                                                $page.props.auth.guard.name !==
+                                                'employee'
+                                            "
                                             class="btn btn-link text-red-500"
                                             @click="
                                                 deleteProject(

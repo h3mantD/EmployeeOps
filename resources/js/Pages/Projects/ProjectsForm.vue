@@ -78,6 +78,7 @@ const submit = () => {
                                     id="name"
                                     name="name"
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                    readonly="$page.props.auth.guard.name === 'employee'"
                                 />
                                 <div
                                     v-if="form.errors.name"
@@ -100,6 +101,7 @@ const submit = () => {
                                     id="type"
                                     name="type"
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                    disabled="$page.props.auth.guard.name === 'employee'"
                                 >
                                     <option
                                         v-for="(type, key) in projectTypes"
@@ -132,6 +134,7 @@ const submit = () => {
                                     name="members"
                                     multiple
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                    disabled="$page.props.auth.guard.name === 'employee'"
                                 >
                                     <option
                                         v-for="employee in employees"
@@ -149,7 +152,12 @@ const submit = () => {
                                 </div>
                             </div>
 
-                            <div class="mt-6">
+                            <div
+                                class="mt-6"
+                                v-if="
+                                    $page.props.auth.guard.name !== 'employee'
+                                "
+                            >
                                 <button type="submit" class="btn btn-primary">
                                     <span v-if="formMode === 'create'"
                                         >Create Project</span
