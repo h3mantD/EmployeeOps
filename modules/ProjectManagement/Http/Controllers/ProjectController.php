@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\Http\Controllers;
 
+use App\Enums\LastOperationType;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\RedirectResponse;
@@ -98,6 +99,8 @@ final class ProjectController extends Controller
             'type' => ['required'],
             'members' => ['required', 'array'],
         ]);
+
+        $validatedData['last_operation'] = LastOperationType::UPDATE;
 
         $project->update($validatedData);
         $project->employees()->sync($validatedData['members']);

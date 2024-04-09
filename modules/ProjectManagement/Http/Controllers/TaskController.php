@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\Http\Controllers;
 
+use App\Enums\LastOperationType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -93,6 +94,8 @@ final class TaskController extends Controller
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date'],
         ]);
+
+        $validatedData['last_operation'] = LastOperationType::UPDATE;
 
         $task->update($validatedData);
 
