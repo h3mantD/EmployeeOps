@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\ProjectManagement\Actions\Projects\ProjectCRUD;
 use Modules\ProjectManagement\Enums\ProjectType;
 use Modules\ProjectManagement\Models\Project;
 
@@ -53,7 +54,7 @@ final class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, ProjectCRUD $projectCRUD): RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'unique:projects,name'],
@@ -61,8 +62,7 @@ final class ProjectController extends Controller
             'members' => ['required', 'array'],
         ]);
 
-        $project = Project::query()->create($validatedData);
-        $project->employees()->sync($validatedData['members']);
+        $projectCRUD->create($validatedData);
 
         return redirect()->route('projects.index')->with('message', 'Project created.');
     }
@@ -92,7 +92,7 @@ final class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project): RedirectResponse
+    public function update(Project $project, Request $request, ProjectCRUD $projectCRUD): RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string', Rule::unique('projects', 'name')->ignore($project->id)],
@@ -102,8 +102,7 @@ final class ProjectController extends Controller
 
         $validatedData['last_operation'] = LastOperationType::UPDATE;
 
-        $project->update($validatedData);
-        $project->employees()->sync($validatedData['members']);
+        $projectCRUD->update($project, $validatedData);
 
         return redirect()->route('projects.index')->with('message', 'Project edited.');
     }
