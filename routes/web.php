@@ -41,6 +41,13 @@ Route::middleware('auth:web')->prefix('employees')->as('employees.')->group(func
     Route::get('/', [EmployeeController::class, 'index'])->name('index');
     Route::get('/create', [EmployeeController::class, 'create'])->name('create');
     Route::post('/store', [EmployeeController::class, 'store'])->name('store');
+
+    Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])->name('edit');
+    Route::post('/{employee}', [EmployeeController::class, 'update'])->name('update');
+
+    Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy');
+
+    Route::post('/{employee}/update-password', [EmployeeController::class, 'updatePassword'])->name('update-password');
 });
 
 require __DIR__ . '/auth.php';
