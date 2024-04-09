@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Employee;
 
 return [
@@ -16,7 +18,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'employee',
         'passwords' => 'users',
     ],
 

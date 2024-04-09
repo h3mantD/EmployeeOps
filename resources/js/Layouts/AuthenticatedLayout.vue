@@ -5,9 +5,21 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const showingNavigationDropdown = ref(false);
+
+if (usePage().props.flash.message) {
+    toast(
+        usePage().props.flash.message.message ?? usePage().props.flash.message,
+        {
+            type: usePage().props.flash.message.type ?? "success",
+            duration: 2000,
+        }
+    );
+}
 </script>
 
 <template>
@@ -41,9 +53,16 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink
                                     v-if="$page.props.auth.guard.name === 'web'"
                                     :href="route('employees.index')"
-                                    :active="route().current('employees/')"
+                                    :active="route().current('employees.index')"
                                 >
                                     Employees
+                                </NavLink>
+
+                                <NavLink
+                                    :href="route('projects.index')"
+                                    :active="route().current('projects.index')"
+                                >
+                                    Projects
                                 </NavLink>
                             </div>
                         </div>
