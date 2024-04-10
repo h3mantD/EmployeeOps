@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Facade;
+use Modules\ProjectManagement\Providers\ProjectManagementProvider;
 
 return [
 
@@ -195,6 +198,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // modules providers
+        ProjectManagementProvider::class,
     ],
 
     /*
