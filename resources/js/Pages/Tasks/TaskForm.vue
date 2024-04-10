@@ -2,6 +2,7 @@
 import { Head, Link, router, useForm, usePage } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref } from "vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 let formMode = ref("create");
 
@@ -79,7 +80,7 @@ const submit = () => {
                     </div>
 
                     <div class="p-6">
-                        <form>
+                        <form @submit.prevent="submit">
                             <div class="mb-4">
                                 <label
                                     for="name"
@@ -212,14 +213,27 @@ const submit = () => {
                                 </select>
                             </div>
 
-                            <!-- create submit button -->
-                            <div class="mb-4">
-                                <button
-                                    @click.prevent="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            <div
+                                class="flex items-center justify-end mt-4"
+                                v-if="
+                                    $page.props.auth.guard.name !== 'employee'
+                                "
+                            >
+                                <Link
+                                    :href="route('projects.edit', project.id)"
+                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Cancel
+                                </Link>
+
+                                <PrimaryButton
+                                    class="ms-4"
+                                    :class="{ 'opacity-25': form.processing }"
+                                    :disabled="form.processing"
+                                    type="submit"
                                 >
                                     Submit
-                                </button>
+                                </PrimaryButton>
                             </div>
                         </form>
                     </div>

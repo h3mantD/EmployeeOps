@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\ProjectManagement\Actions\Projects\ProjectCRUD;
+use Modules\ProjectManagement\DataObjects\ProjectPayload;
 use Modules\ProjectManagement\Enums\ProjectType;
 use Modules\ProjectManagement\Models\Project;
 
@@ -62,7 +63,9 @@ final class ProjectController extends Controller
             'members' => ['required', 'array'],
         ]);
 
-        $projectCRUD->create($validatedData);
+        $projectData = ProjectPayload::fromArray($validatedData);
+
+        $projectCRUD->create($projectData);
 
         return redirect()->route('projects.index')->with('message', 'Project created.');
     }
@@ -102,7 +105,9 @@ final class ProjectController extends Controller
 
         $validatedData['last_operation'] = LastOperationType::UPDATE;
 
-        $projectCRUD->update($project, $validatedData);
+        $projectPayload = ProjectPayload::fromArray($validatedData);
+
+        $projectCRUD->update($project, $projectPayload);
 
         return redirect()->route('projects.index')->with('message', 'Project edited.');
     }

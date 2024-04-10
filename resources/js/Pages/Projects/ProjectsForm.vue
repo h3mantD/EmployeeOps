@@ -3,6 +3,7 @@ import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref } from "vue";
 import ProjectTasks from "../Tasks/ProjectTasks.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const formMode = ref("create");
 
@@ -78,7 +79,10 @@ const submit = () => {
                                     id="name"
                                     name="name"
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                                    readonly="$page.props.auth.guard.name === 'employee'"
+                                    :readonly="
+                                        $page.props.auth.guard.name ===
+                                        'employee'
+                                    "
                                 />
                                 <div
                                     v-if="form.errors.name"
@@ -101,7 +105,10 @@ const submit = () => {
                                     id="type"
                                     name="type"
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                                    disabled="$page.props.auth.guard.name === 'employee'"
+                                    :disabled="
+                                        $page.props.auth.guard.name ===
+                                        'employee'
+                                    "
                                 >
                                     <option
                                         v-for="(type, key) in projectTypes"
@@ -134,7 +141,10 @@ const submit = () => {
                                     name="members"
                                     multiple
                                     class="mt-1 block w-full shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-                                    disabled="$page.props.auth.guard.name === 'employee'"
+                                    :disabled="
+                                        $page.props.auth.guard.name ===
+                                        'employee'
+                                    "
                                 >
                                     <option
                                         v-for="employee in employees"
@@ -153,17 +163,26 @@ const submit = () => {
                             </div>
 
                             <div
-                                class="mt-6"
+                                class="flex items-center justify-end mt-4"
                                 v-if="
                                     $page.props.auth.guard.name !== 'employee'
                                 "
                             >
-                                <button type="submit" class="btn btn-primary">
-                                    <span v-if="formMode === 'create'"
-                                        >Create Project</span
-                                    >
-                                    <span v-else>Edit Project</span>
-                                </button>
+                                <Link
+                                    :href="route('projects.index')"
+                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    Cancel
+                                </Link>
+
+                                <PrimaryButton
+                                    class="ms-4"
+                                    :class="{ 'opacity-25': form.processing }"
+                                    :disabled="form.processing"
+                                    type="submit"
+                                >
+                                    Submit
+                                </PrimaryButton>
                             </div>
                         </form>
                     </div>

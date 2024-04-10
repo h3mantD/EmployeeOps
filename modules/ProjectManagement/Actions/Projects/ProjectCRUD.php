@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\Actions\Projects;
 
 use Illuminate\Support\Facades\DB;
+use Modules\ProjectManagement\DataObjects\ProjectPayload;
 use Modules\ProjectManagement\Models\Project;
 use Throwable;
 
 final class ProjectCRUD
 {
-    public function create(array $projectData): void
+    public function create(ProjectPayload $projectData): void
     {
         DB::beginTransaction();
         try {
-            $project = Project::query()->create($projectData);
-            $project->employees()->sync($projectData['members']);
+            $project = Project::query()->create($projectData->toArray());
+            $project->employees()->sync($projectData->members);
 
             DB::commit();
         } catch (Throwable $th) {
@@ -25,12 +26,12 @@ final class ProjectCRUD
         }
     }
 
-    public function update(Project $project, array $projectData): void
+    public function update(Project $project, ProjectPayload $projectData): void
     {
         DB::beginTransaction();
         try {
-            $project->update($projectData);
-            $project->employees()->sync($projectData['members']);
+            $project->update($projectData->toArray());
+            $project->employees()->sync($projectData->members);
 
             DB::commit();
         } catch (Throwable $th) {
