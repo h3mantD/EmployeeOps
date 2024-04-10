@@ -4,6 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref } from "vue";
 import ProjectTasks from "../Tasks/ProjectTasks.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import Multiselect from "@vueform/multiselect";
 
 const formMode = ref("create");
 
@@ -135,7 +136,7 @@ const submit = () => {
                                     Members
                                 </label>
 
-                                <select
+                                <!-- <select
                                     v-model="form.members"
                                     id="members"
                                     name="members"
@@ -153,7 +154,12 @@ const submit = () => {
                                     >
                                         {{ employee.name }}
                                     </option>
-                                </select>
+                                </select> -->
+                                <Multiselect
+                                    v-model="form.members"
+                                    :options="employees"
+                                    mode="tags"
+                                ></Multiselect>
                                 <div
                                     v-if="form.errors.members"
                                     class="text-red-500"
@@ -195,3 +201,5 @@ const submit = () => {
         </template>
     </AuthenticatedLayout>
 </template>
+
+<style src="@vueform/multiselect/themes/default.css"></style>

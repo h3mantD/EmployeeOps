@@ -46,7 +46,12 @@ final class ProjectController extends Controller
     public function create(Request $request): Response
     {
         return Inertia::render('Projects/ProjectsForm', [
-            'employees' => Employee::query()->get(['id', 'name']),
+            'employees' => Employee::query()->get(['id', 'name'])->map(function ($employee) {
+                return [
+                    'value' => $employee->id,
+                    'label' => $employee->name,
+                ];
+            }),
             'projectTypes' => ProjectType::getSelectArray(),
             'project' => null,
         ]);
@@ -86,7 +91,12 @@ final class ProjectController extends Controller
         $project->load('tasks');
 
         return Inertia::render('Projects/ProjectsForm', [
-            'employees' => Employee::query()->get(['id', 'name']),
+            'employees' => Employee::query()->get(['id', 'name'])->map(function ($employee) {
+                return [
+                    'value' => $employee->id,
+                    'label' => $employee->name,
+                ];
+            }),
             'projectTypes' => ProjectType::getSelectArray(),
             'project' => $project->append('members'),
         ]);
