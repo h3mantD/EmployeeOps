@@ -34,7 +34,7 @@ final class ProjectController extends Controller
         }
 
         return Inertia::render('Projects/Index', [
-            'projects' => $projects,
+            'projects' => $projects->load('employees'),
             'employees' => $employees,
             'projectTypes' => ProjectType::getSelectArray(),
         ]);

@@ -63,9 +63,10 @@ const deleteProject = (projectId, projectName) => {
                         <table class="table table-md">
                             <thead>
                                 <tr>
-                                    <th class="w-9/12 text-left">
+                                    <th class="max-w-md w-auto text-left">
                                         Project Name
                                     </th>
+                                    <th class="w-2/4 w-auto">Employees</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -74,8 +75,17 @@ const deleteProject = (projectId, projectName) => {
                                     v-for="project in projects"
                                     :key="project.id"
                                 >
-                                    <th class="w-9/12 text-left">
+                                    <th class="max-w-md w-auto text-left">
                                         {{ project.name }}
+                                    </th>
+                                    <th>
+                                        <!-- create a tag for each employee it will have employees name in it -->
+                                        <span
+                                            class="badge badge-sm badge-neutral mr-1"
+                                            v-for="employee in project.employees"
+                                            :key="employee.id"
+                                            >{{ employee.name }}</span
+                                        >
                                     </th>
                                     <th>
                                         <Link
