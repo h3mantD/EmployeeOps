@@ -33,7 +33,7 @@ const deleteEmployee = (employeeId, employeeName) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex">
+            <div class="flex justify-between">
                 <h2
                     class="flex-none font-semibold text-xl text-gray-800 leading-tight content-center"
                 >
