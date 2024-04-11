@@ -57,6 +57,7 @@ const deleteTask = (taskId, taskName) => {
                                 <th>Task Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -66,7 +67,18 @@ const deleteTask = (taskId, taskName) => {
                                 <td>{{ task.name }}</td>
                                 <td>{{ task.start_date }}</td>
                                 <td>{{ task.end_date }}</td>
-                                <td>{{ task.status }}</td>
+                                <td>
+                                    {{
+                                        task.type.charAt(0).toUpperCase() +
+                                        task.type.slice(1).toLowerCase()
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        task.status.charAt(0).toUpperCase() +
+                                        task.status.slice(1).toLowerCase()
+                                    }}
+                                </td>
                                 <td>
                                     <Link
                                         :href="
