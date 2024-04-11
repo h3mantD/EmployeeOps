@@ -24,7 +24,7 @@
 6.  Add database configurations in .env
 
     ```bash
-    # sqlite db details
+    # sqlite db details - for SQLite you should php-sqlite3 extension installed
     DB_CONNECTION=sqlite
     DB_DATABASE=/your-full-path/EmployeeOps/database/EmployeeOps.sqlite
 
